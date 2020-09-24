@@ -114,7 +114,7 @@ class TokenService
     {
         $now   = new \DateTimeImmutable();
         $clock = new SystemClock();
-        $private_key = 'file:///'.dirname(dirname(dirname(__DIR__))).'/keys/private.key';
+        $private_key = 'file:///'.dirname(dirname(dirname(__DIR__))).'/keys/key'; // private
         $configuration = Configuration::forSymmetricSigner(
         // You may use any HMAC variations (256, 384, and 512)
             new Sha256(),
