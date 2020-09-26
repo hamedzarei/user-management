@@ -1,0 +1,264 @@
+{
+	"info": {
+		"_postman_id": "5da3d2dc-9d12-43e6-b18a-d40c7d86eb37",
+		"name": "bime",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "update user",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI1ZTMzZjY2MTNlODRjIiwiaWF0IjoiMTU4MDQ2MzcxMy4yNTU5MjEiLCJuYmYiOiIxNTgwNDYzNzE0LjI1NTkyMSIsInVpZCI6Mn0._5nfB0hRIHaMeUCRpunZp0tyMY0E7pSkCIDCi1q_SUk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"password\": \"javadi01234\",\n\t\"email\": \"javadi@mail.ir\",\n\t\"mobile\": \"09124174788\",\n\t\"name\": \"javadi\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:1212/users/2",
+							"host": [
+								"localhost"
+							],
+							"port": "1212",
+							"path": [
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get user",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI1ZjZlYmM0MTI2MzZkIiwiaWF0IjoiMTYwMTA5MjY3My4xNTYyNTMiLCJuYmYiOiIxNjAxMDkyNjc0LjE1NjI1MyIsImV4cCI6IjE2MDEwOTYyNzMuMTU2MjUzIiwidWlkIjoxfQ.-HXByfWfRnkiZFYb5XblPmGJn8cNjwaf83SWTVXWEC0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"password\": \"javadi01234\",\n\t\"email\": \"javadi@mail.ir\",\n\t\"mobile\": \"09124174788\",\n\t\"name\": \"javadi\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9091/api/users/2",
+							"host": [
+								"localhost"
+							],
+							"port": "9091",
+							"path": [
+								"api",
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"ali\",\n    \"mobile\": \"09124174788\",\n    \"password\": \"ali@123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9091/api/users",
+							"host": [
+								"localhost"
+							],
+							"port": "9091",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Token",
+			"item": [
+				{
+					"name": "issue new token by password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"identity\": \"09124174788\",\n\t\"password\": \"ali@123456\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9091/api/tokens/issue",
+							"host": [
+								"localhost"
+							],
+							"port": "9091",
+							"path": [
+								"api",
+								"tokens",
+								"issue"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "issue new token by otp",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"identity\": \"09124174788\",\n    \"otp\": 54048\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9091/api/tokens/issue",
+							"host": [
+								"localhost"
+							],
+							"port": "9091",
+							"path": [
+								"api",
+								"tokens",
+								"issue"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check token user_id (from openresty)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI1ZjZlYjNiYzY3YzZkIiwiaWF0IjoiMTYwMTA5MDQ5Mi40MjI2MTgiLCJuYmYiOiIxNjAxMDkwNDkzLjQyMjYxOCIsImV4cCI6IjE2MDEwOTQwOTIuNDIyNjE4IiwidWlkIjoyfQ.nQGKWrtqIcvqZU1bx2pij3BkYy-j4RpmZrR_Neez_7k",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:9091/token",
+							"host": [
+								"localhost"
+							],
+							"port": "9091",
+							"path": [
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "otp",
+			"item": [
+				{
+					"name": "create otp",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"identity\": \"09124174788\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9091/api/otp",
+							"host": [
+								"localhost"
+							],
+							"port": "9091",
+							"path": [
+								"api",
+								"otp"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
