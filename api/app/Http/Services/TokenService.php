@@ -12,7 +12,6 @@ namespace App\Http\Services;
 use App\Helpers\IdentityHelper;
 use App\User;
 use Illuminate\Validation\UnauthorizedException;
-use Lcobucci\Clock\Clock;
 use Lcobucci\Clock\SystemClock;
 use Lcobucci\JWT\Configuration;
 use Illuminate\Support\Facades\Hash;
@@ -24,19 +23,31 @@ use Lcobucci\JWT\Validation\InvalidToken;
 
 class TokenService
 {
-    public static function issue($identity, $password)
+    public static function issue($identity, $password, $otp)
     {
         $type = IdentityHelper::getType($identity);
 
         $user = User::getItem($type, $identity, ['password']);
 
-        if (Hash::check($password, $user['password'])) {
+        if ($password) {
+            if (Hash::check($password, $user['password'])) {
 //            return true;
-            return [
-                'user' => $user,
-                'token' => self::issueToken($user)
-            ];
+                return [
+                    'user' => $user,
+                    'token' => self::issueToken($user)
+                ];
+            }
         }
+
+        if ($otp) {
+            if (OTPService::checkItem($identity, $otp)) {
+                return [
+                    'user' => $user,
+                    'token' => self::issueToken($user)
+                ];
+            }
+        }
+
 
         return false;
     }
@@ -87,8 +98,7 @@ class TokenService
         $config = self::configuration();
         assert($config instanceof Configuration);
 
-        $clock   = new SystemClock();
-        $now = $clock->now();
+        $now   = new \DateTimeImmutable();
         $token = $config->createBuilder()
 //            // Configures the issuer (iss claim)
 //            ->issuedBy('http://example.com')
@@ -101,7 +111,7 @@ class TokenService
             // Configures the time that the token can be used (nbf claim)
             ->canOnlyBeUsedAfter($now->modify('+1 second'))
             // Configures the expiration time of the token (exp claim)
-//            ->expiresAt($now->modify('+1 hour'))
+            ->expiresAt($now->modify('+1 hour'))
             // Configures a new claim, called "uid"
             ->withClaim('uid', $user['id'])
             // Builds a new token
@@ -113,7 +123,7 @@ class TokenService
     private static function configuration()
     {
         $now   = new \DateTimeImmutable();
-        $clock = new SystemClock();
+
         $private_key = 'file:///'.dirname(dirname(dirname(__DIR__))).'/keys/key'; // private
         $configuration = Configuration::forSymmetricSigner(
         // You may use any HMAC variations (256, 384, and 512)
@@ -122,7 +132,7 @@ class TokenService
 //            new Key($private_key),
             new Key('mBC5v1sOKVvbdEitdSBenu59nfNfhwkedkJVNabosTw=')
         );
-        $configuration->setValidationConstraints(new ValidAt($clock));
+//        $configuration->setValidationConstraints(new ValidAt($clock));
         return $configuration;
     }
 }

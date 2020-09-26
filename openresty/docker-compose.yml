@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  openresty:
+#    image: openresty/openresty:1.15.8.2-7-alpine
+    build:
+      context: .
+    networks:
+      - net
+    ports:
+      - 9091:80
+    volumes:
+      - $PWD/data/openresty/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
+      - $PWD/data/openresty/lua:/etc/nginx/lua
+      - $PWD/data/openresty/conf:/etc/nginx/conf.d
+      - $PWD/data/ssh:/etc/nginx/key
+
+networks:
+  net:
+    driver: bridge

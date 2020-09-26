@@ -1,7 +1,7 @@
 version: '3.3'
 
 services:
-  app:
+  api:
     build:
       context: api
     networks:
@@ -28,7 +28,7 @@ services:
       POSTGRESQL_USERNAME: "postgres"
       POSTGRESQL_PASSWORD: "postgres"
     ports:
-      # <Port exposed> : < MySQL Port running inside container>
+      # <Port exposed> : < Port running inside container>
       - '5499:5432'
     volumes:
       - my-db:/bitnami/postgresql
@@ -41,6 +41,28 @@ services:
       PGADMIN_DEFAULT_PASSWORD: postgres
     ports:
       - 5480:80
+
+  openresty:
+#    image: openresty/openresty:1.15.8.2-7-alpine
+     build:
+       context: openresty
+     restart: always
+     depends_on:
+       - api
+     networks:
+       - mynet
+     ports:
+       - 9091:80
+     volumes:
+       - $PWD/openresty/data/openresty/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
+       - $PWD/openresty/data/openresty/lua:/etc/nginx/lua
+       - $PWD/openresty/data/openresty/conf:/etc/nginx/conf.d
+       - $PWD/openresty/data/ssh:/etc/nginx/key
+       - $PWD/openresty/log:/var/log/nginx
+  redis:
+    image: redis
+    networks:
+      - mynet
 # Names our volume
 volumes:
   my-db:

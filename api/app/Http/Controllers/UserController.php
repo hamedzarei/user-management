@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\IdentityHelper;
-use App\Http\Services\FileService;
 use App\Http\Services\UserService;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\JsonResponse;

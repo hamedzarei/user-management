@@ -13,6 +13,7 @@ use App\Http\Services\TokenService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Validation\UnauthorizedException;
 
 class TokenController extends Controller
 {
@@ -21,8 +22,9 @@ class TokenController extends Controller
 //        validation
         $identity = $request->input('identity');
         $password = $request->input('password');
+        $otp = $request->input('otp');
 
-        $data = TokenService::issue($identity, $password);
+        $data = TokenService::issue($identity, $password, $otp);
 
         if ($data !== false) {
             return JsonResponse::create(
@@ -32,7 +34,7 @@ class TokenController extends Controller
             );
         }
 
-        abort(Response::HTTP_UNAUTHORIZED);
+        throw new UnauthorizedException();
     }
 
     public function check(Request $request)
